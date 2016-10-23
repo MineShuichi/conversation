@@ -28,15 +28,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        AsyncHttpRequest task = new AsyncHttpRequest(this);
-        task.execute("");
+        startReqest("");
     }
 
-    public void onSpeechBtn(View view){
-        //speech();
-        AsyncHttpRequest task = new AsyncHttpRequest(this);
-        task.execute("てすと");
-    }
+    public void onSpeechBtn(View view){speech();}
 
     private void speech(){
 
@@ -69,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
             resultsString = results.get(0);
 
             //Toast.makeText(this, resultsString, Toast.LENGTH_LONG).show();
-            TextView tv = (TextView)findViewById(R.id.text);
-            tv.setText(resultsString);
+            startReqest(resultsString);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -82,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     public Map<String, Object> getContext(){
         return this.context;
+    }
+
+    public void startReqest(String text){
+        AsyncHttpRequest task = new AsyncHttpRequest(this);
+        task.execute(text);
     }
 
 }
