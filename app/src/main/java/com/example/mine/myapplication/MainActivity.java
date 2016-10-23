@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        startReqest("");
+        startRequest("");
     }
 
     public void onSpeechBtn(View view){speech();}
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             resultsString = results.get(0);
 
             //Toast.makeText(this, resultsString, Toast.LENGTH_LONG).show();
-            startReqest(resultsString);
+            startRequest(resultsString);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         return this.context;
     }
 
-    public void startReqest(String text){
+    public void startRequest(String text){
         AsyncHttpRequest task = new AsyncHttpRequest(this);
         task.execute(text);
     }
