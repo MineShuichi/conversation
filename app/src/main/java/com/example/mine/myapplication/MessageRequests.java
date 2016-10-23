@@ -31,12 +31,16 @@ public class MessageRequests {
 
         String mess = "おなかへった";
         MessageRequest request = new MessageRequest.Builder()
-                .inputText(mess).build();
+                .inputText("").build();
 
         MessageResponse response = null;
         response = service.message(WORKSPACE_ID, request).execute();
         System.out.println(response);
 
+        MessageRequest request2 = new MessageRequest.Builder()
+                .inputText(mess).context(response.getContext()).build();
+        response = service.message(WORKSPACE_ID, request2).execute();
+        System.out.println(response.getTextConcatenated(","));
     }
 
     public MessageResponse getResponse() { return res; }
