@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 public class MessageRequests {
     private static String VERSION       = "2016-09-20";
@@ -23,27 +24,60 @@ public class MessageRequests {
     private static String URL           = "https://gateway.watsonplatform.net/conversation/api";
     private static boolean LOGGING_ENABLED = Boolean.parseBoolean(System.getenv("LOGGING_ENABLED"));
 
-    private MessageResponse res;
+    private Map<String, Object> context;
+    private String stringOutPut;
 
-    public void requestMessage() {
+    public MessageRequests(){
+        context = null;
+        stringOutPut = null;
+    }
+
+    public void requestMessage(String mess) {
+        MessageRequest request;
+        if(getResContext() != null) {
+            request = new MessageRequest.Builder()
+                    .inputText(mess).context(getResContext()).build();
+        }
+        else{
+            request = new MessageRequest.Builder()
+                    .inputText(mess).build();
+        }
+
+        setStringOutPut(responseMessage(request));
+    }
+
+    public String responseMessage(MessageRequest request)
+    {
         ConversationService service = new ConversationService(VERSION);
         service.setUsernameAndPassword(USER_NAME, PASS_WORD);
-
-        String mess = "おなかへった";
-        MessageRequest request = new MessageRequest.Builder()
-                .inputText("").build();
 
         MessageResponse response = null;
         response = service.message(WORKSPACE_ID, request).execute();
         System.out.println(response);
+        setResContext(response.getContext());
 
-        MessageRequest request2 = new MessageRequest.Builder()
+        /*MessageRequest request2 = new MessageRequest.Builder()
                 .inputText(mess).context(response.getContext()).build();
         response = service.message(WORKSPACE_ID, request2).execute();
-        System.out.println(response.getTextConcatenated(","));
+        System.out.println(response.getTextConcatenated(","));*/
+
+        return response.getTextConcatenated(",");
     }
 
-    public MessageResponse getResponse() { return res; }
+    public void setResContext(Map<String, Object> context){
+        this.context = context;
+    }
 
+    public Map<String, Object> getResContext(){
+        return this.context;
+    }
+
+    public void setStringOutPut(String str){
+        this.stringOutPut = str;
+    }
+
+    public String getStringOutPut(){
+        return this.stringOutPut;
+    }
 
 }

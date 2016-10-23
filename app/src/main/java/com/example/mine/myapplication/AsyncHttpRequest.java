@@ -2,33 +2,47 @@ package com.example.mine.myapplication;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.Map;
 
 /**
  * Created by mine on 2016/10/20.
  */
 
-public class AsyncHttpRequest extends AsyncTask<Void, Void, Void> {
+public class AsyncHttpRequest extends AsyncTask<String, String, String> {
 
-    private Activity mainActivity;
+    private MainActivity mainActivity;
+    private MessageRequests messReq;
+    private TextView textView;
+    private Map<String, Object> context;
 
-    public AsyncHttpRequest() {
+    public AsyncHttpRequest(MainActivity mainActivity) {
+
         super();
+        this.mainActivity = mainActivity;
+        messReq = new MessageRequests();
+        textView = (TextView)mainActivity.findViewById(R.id.text);
+        context = null;
     }
 
     // このメソッドは必ずオーバーライドする必要があるよ
     // ここが非同期で処理される部分みたいたぶん。
     @Override
-    protected Void doInBackground(Void... params) {
-        // httpリクエスト投げる処理を書く。
-        // ちなみに私はHttpClientを使って書きましたー
+    protected String doInBackground(String... params) {
 
-        /*Handler mHandler = new Handler(Looper.getMainLooper());*/
-        MessageRequests messReq = new MessageRequests();
-        messReq.requestMessage();
-        //System.out.println("非同期");
-        return null;
+        context = mainActivity.getContext();
+        messReq.setResContext(context);
+        messReq.requestMessage(params[0]);
+        return messReq.getStringOutPut();
     }
 
+    @Override
+    protected void onPostExecute(String str){
+        context = messReq.getResContext();
+        mainActivity.setContext(context);
+        textView.setText(str);
+    }
 }

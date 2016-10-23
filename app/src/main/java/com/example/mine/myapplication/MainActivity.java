@@ -13,20 +13,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
-    private String resText = "";
+    private String reqText = "";
+    private Map<String, Object> context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        AsyncHttpRequest task = new AsyncHttpRequest(this);
+        task.execute("");
     }
 
     public void onSpeechBtn(View view){
-        speech();
+        //speech();
+        AsyncHttpRequest task = new AsyncHttpRequest(this);
+        task.execute("てすと");
     }
 
     private void speech(){
@@ -46,18 +55,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,
                     "ActivityNotFoundException", Toast.LENGTH_LONG).show();
         }
-
-        /*Handler mHandler = new Handler(Looper.getMainLooper());
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                MessageRequests messReq = new MessageRequests();
-                messReq.requestMessage();
-            }
-        });*/
-        AsyncHttpRequest task = new AsyncHttpRequest();
-        task.execute();
-
     }
 
     @Override
@@ -78,4 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public void setContext(Map<String, Object> context){
+        this.context = context;
+    }
+
+    public Map<String, Object> getContext(){
+        return this.context;
+    }
+
 }
