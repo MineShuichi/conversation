@@ -2,6 +2,9 @@ package com.example.mine.myapplication;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,
                     "ActivityNotFoundException", Toast.LENGTH_LONG).show();
         }
+
+        /*Handler mHandler = new Handler(Looper.getMainLooper());
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                MessageRequests messReq = new MessageRequests();
+                messReq.requestMessage();
+            }
+        });*/
+        AsyncHttpRequest task = new AsyncHttpRequest();
+        task.execute();
 
     }
 
