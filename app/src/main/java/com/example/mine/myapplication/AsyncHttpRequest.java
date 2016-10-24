@@ -41,8 +41,10 @@ public class AsyncHttpRequest extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String str){
+        mainActivity.setReqText(str);
         context = messReq.getResContext();
         mainActivity.setContext(context);
-        textView.setText(str);
+
+        mainActivity.resToSpeak();
     }
 }

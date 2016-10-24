@@ -55,12 +55,6 @@ public class MessageRequests {
         response = service.message(WORKSPACE_ID, request).execute();
         System.out.println(response);
         setResContext(response.getContext());
-
-        /*MessageRequest request2 = new MessageRequest.Builder()
-                .inputText(mess).context(response.getContext()).build();
-        response = service.message(WORKSPACE_ID, request2).execute();
-        System.out.println(response.getTextConcatenated(","));*/
-
         return response.getTextConcatenated(",");
     }
 
